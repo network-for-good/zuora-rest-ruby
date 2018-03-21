@@ -26,7 +26,7 @@ require "zuora/rsa_signature"
 
 module Zuora
   class << self
-    attr_accessor :username, :password, :production_mode, :debug_output
+    attr_accessor :bearer_token, :production_mode, :debug_output
 
     def base_url
       if production_mode
@@ -51,15 +51,7 @@ module Zuora
 
     def options
       {
-        basic_auth:   basic_auth,
         debug_output: debug_output
-      }
-    end
-
-    def basic_auth
-      {
-        username: username,
-        password: password
       }
     end
   end
