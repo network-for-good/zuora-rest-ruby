@@ -1,6 +1,8 @@
 require "rubygems"
 require "httparty"
 require "active_support/inflector"
+require "active_support/core_ext/hash/keys"
+require "active_support/core_ext/date/calculations"
 
 require "zuora/version"
 require "zuora/http_client"
@@ -14,8 +16,11 @@ require "zuora/rest_operations/delete"
 require "zuora/rest_operations/preview"
 
 require "zuora/resource"
+require "zuora/action"
 require "zuora/account"
 require "zuora/billing_preview_run"
+require "zuora/billing_preview"
+require "zuora/billing_document"
 require "zuora/file"
 require "zuora/invoice"
 require "zuora/subscription"
@@ -49,10 +54,12 @@ module Zuora
 
     def request(method, url, params={})
       attempts ||= 0
+      Zuora::HttpClient.set_authorization_header
       response = Zuora::HttpClient.public_send(method, url, params.merge(options))
       Zuora::ErrorHandler.handle_response(response)
-    rescue Zuora::APIError => e
-      if e.message.match("Error 90000011") #"Error 90000011: This resource is protected, please sign in first"
+    rescue Zuora::APIError, Zuora::UnknownError => e
+      if e.message.match("Error 90000011") || e.message.match("Authentication error")
+        #"Error 90000011: This resource is protected, please sign in first"
         # since zuora does not believe we have rights to get information from it
         # likely the bearer token has expired. So let's get a new one and
         # set it in the header
