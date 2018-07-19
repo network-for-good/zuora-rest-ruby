@@ -40,7 +40,7 @@ module Zuora
       if production_mode
         "https://rest.zuora.com/"
       else
-        "https://apisandbox-api.zuora.com/rest/"
+        "https://rest.apisandbox.zuora.com"
       end
     end
 
