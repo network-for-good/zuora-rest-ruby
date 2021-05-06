@@ -34,7 +34,7 @@ require "zuora/oauth_token"
 
 module Zuora
   class << self
-    attr_accessor :production_mode, :debug_output, :client_id, :client_secret, :results_as_hash
+    attr_accessor :production_mode, :debug_output, :client_id, :client_secret, :results_as_hash, :minor_version
 
     def base_url
       if production_mode
@@ -55,6 +55,7 @@ module Zuora
     def request(method, url, params={})
       attempts ||= 0
       Zuora::HttpClient.set_authorization_header
+      Zuora::HttpClient.set_minor_version
       response = Zuora::HttpClient.public_send(method, url, params.merge(options))
       Zuora::ErrorHandler.handle_response(response)
     rescue Zuora::APIError, Zuora::UnknownError => e
