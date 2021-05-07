@@ -84,3 +84,9 @@ module Zuora
     end
   end
 end
+
+class StringDisableCapitalize < String
+  def capitalize
+    self
+  end
+end

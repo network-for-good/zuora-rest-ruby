@@ -34,9 +34,3 @@ module Zuora
     headers "Content-Type" => "application/json"
   end
 end
-
-class StringDisableCapitalize < String
-  def capitalize
-    self
-  end
-end
