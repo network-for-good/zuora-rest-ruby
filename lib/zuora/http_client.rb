@@ -26,11 +26,17 @@ module Zuora
     def self.set_minor_version
       return unless Zuora.minor_version.present?
 
-      headers "zuora-version" => Zuora.minor_version
+      headers ImmutableKey.new("zuora-version") => Zuora.minor_version
     end
 
     format  :json
     headers "Accept" => "application/json"
     headers "Content-Type" => "application/json"
+  end
+end
+
+class ImmutableKey < String
+  def capitalize
+    self
   end
 end
