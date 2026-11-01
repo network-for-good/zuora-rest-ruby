@@ -15,7 +15,9 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = ">= 3.2"
 
-  s.add_dependency 'httparty'
+  # 0.24.3+ handles json 3.x, which rejects the :quirks_mode option that older
+  # httparty passed to JSON.parse (ArgumentError on every parsed response).
+  s.add_dependency 'httparty', '>= 0.24.3'
   # lib/zuora-rest.rb requires active_support/inflector, core_ext/hash/keys and
   # core_ext/date/calculations. Previously undeclared; it only worked because the
   # consuming Rails app had already loaded ActiveSupport.
