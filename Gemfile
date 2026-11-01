@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in name_splitter.gemspec
+# Specify the gem's dependencies in zuora-rest.gemspec
 gemspec
 
-gem "httparty", "0.24.0"
+gem "httparty", "0.24.3" # json 3.x compatible (quirks_mode removed)
