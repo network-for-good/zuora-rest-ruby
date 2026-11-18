@@ -1,6 +1,4 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in name_splitter.gemspec
+# Specify the gem's dependencies in zuora-rest.gemspec
 gemspec
-
-gem "httparty", "0.24.0"

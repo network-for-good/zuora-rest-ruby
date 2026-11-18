@@ -5,7 +5,6 @@ require 'zuora/version'
 Gem::Specification.new do |s|
   s.name             = "zuora-rest"
   s.version          = Zuora::VERSION
-  s.date             = "2016-01-28"
   s.summary          = "Lite Zuora REST API client"
   s.description      = "Basic REST API client to make simple subscription system on Zuora work"
   s.authors          = ["Gherry Harahap"]
@@ -14,17 +13,24 @@ Gem::Specification.new do |s|
   s.license          = "MIT"
   s.extra_rdoc_files = ["LICENSE", "README.md"]
 
-  s.add_dependency('httparty')
-  s.add_development_dependency('pry', '~> 0.10.3')
-  s.add_development_dependency "bundler", "~> 2.1.4"
-  s.add_development_dependency "rake", "~> 13.0"
-  s.add_development_dependency 'rspec-rails', '~> 3.8', '>= 3.8.2'
-  s.add_development_dependency "rspec-expectations", "~> 3.0"
-  s.add_development_dependency "webmock", '~> 3.8.3'
-  s.add_development_dependency "rails", "~> 5.2.0"
+  s.required_ruby_version = ">= 3.2"
 
+  # 0.24.3+ handles json 3.x, which rejects the :quirks_mode option that older
+  # httparty passed to JSON.parse (ArgumentError on every parsed response).
+  s.add_dependency 'httparty', '>= 0.24.3'
+  # lib/zuora-rest.rb requires active_support/inflector, core_ext/hash/keys and
+  # core_ext/date/calculations. Previously undeclared; it only worked because the
+  # consuming Rails app had already loaded ActiveSupport.
+  s.add_dependency 'activesupport', '>= 7.2', '< 8.2'
+  # OpenStruct (error_handler/base.rb) leaves the default gems in Ruby 3.5.
+  s.add_dependency 'ostruct', '>= 0.6'
+
+  s.add_development_dependency 'pry', '~> 0.15'
+  s.add_development_dependency 'rake', '~> 13.0'
+  s.add_development_dependency 'rspec', '~> 3.13'
+  s.add_development_dependency 'rspec_junit_formatter', '~> 0.6'
+  s.add_development_dependency 'webmock', '~> 3.25'
 
   s.files            = `git ls-files`.split("\n")
-  s.test_files       = `git ls-files -- test/*`.split("\n")
   s.require_paths    = ["lib"]
 end

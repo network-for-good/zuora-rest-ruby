@@ -1,6 +1,11 @@
 require "rubygems"
 require "httparty"
+require "json"
+require "ostruct"
+require "active_support"
 require "active_support/inflector"
+require "active_support/core_ext/object/blank"
+require "active_support/core_ext/object/json"
 require "active_support/core_ext/hash/keys"
 require "active_support/core_ext/date/calculations"
 
